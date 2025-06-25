@@ -77,11 +77,11 @@ public class Consulta {
         this.descricao = descricao;
     }
 
-    public EnumStatus getStatus() {
+    public StatusConsulta getStatus() {
         return status;
     }
 
-    public void setStatus(EnumStatus status) {
+    public void setStatus(StatusConsulta status) {
         this.status = status;
     }
 
