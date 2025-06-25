@@ -1,19 +1,19 @@
 package com.SGC.projeto_final_java.model;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
- 
+
 @Entity
-public class Paciente {
- 
+public class Medico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
- 
+
     @NotBlank(message = "O nome é obrigatório!")
     @Size(min = 2, max = 100, message = "O nome do utilizador deve ter entre 2 e 100 caracteres")
     private String nome;
@@ -26,12 +26,16 @@ public class Paciente {
     private String password;
 
     @NotNull(message = "A idade é obrigatória!")
-    @Min(value=18, message = "Idade inválida, deve ser maior de 18 anos.")
+    @Min(value = 18, message = "Idade inválida, deve ser maior de 18 anos.")
     private int idade;
-    
-    @NotNull(message = "Número inválido")
-    @Min(value=1, message = "Idade inválida, deve ser maior de 18 anos.")
-    private int numeroUtente;
+
+    @NotNull(message = "Número de carteira profissional inválido!")
+    @Min(value = 1, message = "Número de carteira profissional inválido!")
+    private int numeroCarteiraMedica;
+
+    @NotBlank(message = "A especialidade é obrigatória!")
+    @Size(min = 1, max = 100, message = "O nome da especialidaee deve ter entre 2 e 100 caracteres")
+    private String especialidade;
 
     public Long getId() {
         return id;
@@ -53,6 +57,8 @@ public class Paciente {
         return email;
     }
 
+
+    
     public void setEmail(String email) {
         this.email = email;
     }
@@ -65,12 +71,20 @@ public class Paciente {
         this.idade = idade;
     }
 
-    public int getNumeroUtente() {
-        return numeroUtente;
+    public int getNumeroCarteiraMedica() {
+        return numeroCarteiraMedica;
     }
 
-    public void setNumeroUtente(int numeroUtente) {
-        this.numeroUtente = numeroUtente;
+    public void setNumeroCarteiraMedica(int numeroCarteiraMedica) {
+        this.numeroCarteiraMedica = numeroCarteiraMedica;
+    }
+
+    public String getEspecialidade() {
+        return especialidade;
+    }
+
+    public void setEspecialidade(String especialidade) {
+        this.especialidade = especialidade;
     }
 
     public String getPassword() {
@@ -80,5 +94,5 @@ public class Paciente {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
 }
