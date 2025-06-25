@@ -27,6 +27,6 @@ public class Consulta {
     // private User paciente;
 
     @Enumerated(EnumType.STRING)
-    private EnumStatus status;
+    private StatusConsulta status;
 
 }
