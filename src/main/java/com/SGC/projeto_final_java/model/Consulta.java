@@ -1,33 +1,43 @@
 package com.SGC.projeto_final_java.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 @Entity
+@Table(name = "consultas")
 public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "medico_id", nullable = false)
+    @NotNull(message = "O médico é obrigatório")
     private Medico medico;
+
+    @ManyToOne
+    @JoinColumn(name = "paciente_id", nullable = false)
+    @NotNull(message = "O paciente é obrigatório")
     private Paciente paciente;
+
+    @NotNull(message = "A data é obrigatória")
     private LocalDate data;
+
+    @NotNull(message = "A hora é obrigatória")
     private LocalTime hora;
+
+    @NotBlank(message = "A descrição é obrigatória")
+    @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres")
     private String descricao;
 
-    // @ManyToOne
-    // private User paciente;
-
     @Enumerated(EnumType.STRING)
-    private StatusConsulta status;
+    private EnumStatusConsulta status = EnumStatusConsulta.PENDENTE;
+
+    public Consulta() {
+    }
 
     public Long getId() {
         return id;
@@ -77,12 +87,24 @@ public class Consulta {
         this.descricao = descricao;
     }
 
-    public StatusConsulta getStatus() {
+    public EnumStatusConsulta getStatus() {
         return status;
     }
 
-    public void setStatus(StatusConsulta status) {
+    public void setStatus(EnumStatusConsulta status) {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Consulta{" +
+                "id=" + id +
+                ", medico=" + medico.getNome() +
+                ", paciente=" + paciente.getNome() +
+                ", data=" + data +
+                ", hora=" + hora +
+                ", descricao='" + descricao + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

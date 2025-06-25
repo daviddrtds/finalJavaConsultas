@@ -1,13 +1,10 @@
 package com.SGC.projeto_final_java.model;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
+@Table(name = "medicos")
 public class Medico {
 
     @Id
@@ -15,27 +12,36 @@ public class Medico {
     private Long id;
 
     @NotBlank(message = "O nome é obrigatório!")
-    @Size(min = 2, max = 100, message = "O nome do utilizador deve ter entre 2 e 100 caracteres")
+    @Size(min = 2, max = 100, message = "O nome deve ter entre 2 e 100 caracteres")
     private String nome;
 
     @NotBlank(message = "O email é obrigatório!")
-    @Email(message = "Email incorreto")
+    @Email(message = "Formato de email inválido")
+    @Column(unique = true)
     private String email;
 
+    @NotBlank(message = "O nome de utilizador é obrigatório!")
+    @Column(unique = true)
+    private String username;
+
     @NotBlank(message = "Password obrigatória!")
+    @Size(min = 6, message = "A password deve ter pelo menos 6 caracteres")
     private String password;
 
     @NotNull(message = "A idade é obrigatória!")
-    @Min(value = 18, message = "Idade inválida, deve ser maior de 18 anos.")
-    private int idade;
+    @Min(value = 18, message = "Deve ter pelo menos 18 anos")
+    private Integer idade;
 
-    @NotNull(message = "Número de carteira profissional inválido!")
-    @Min(value = 1, message = "Número de carteira profissional inválido!")
-    private int numeroCarteiraMedica;
+    @NotBlank(message = "Número de cédula profissional é obrigatório!")
+    @Column(unique = true)
+    private String numeroCarteiraMedica;
 
     @NotBlank(message = "A especialidade é obrigatória!")
-    @Size(min = 1, max = 100, message = "O nome da especialidaee deve ter entre 2 e 100 caracteres")
+    @Size(min = 2, max = 100, message = "A especialidade deve ter entre 2 e 100 caracteres")
     private String especialidade;
+
+    public Medico() {
+    }
 
     public Long getId() {
         return id;
@@ -57,25 +63,39 @@ public class Medico {
         return email;
     }
 
-
-    
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public int getIdade() {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getIdade() {
         return idade;
     }
 
-    public void setIdade(int idade) {
+    public void setIdade(Integer idade) {
         this.idade = idade;
     }
 
-    public int getNumeroCarteiraMedica() {
+    public String getNumeroCarteiraMedica() {
         return numeroCarteiraMedica;
     }
 
-    public void setNumeroCarteiraMedica(int numeroCarteiraMedica) {
+    public void setNumeroCarteiraMedica(String numeroCarteiraMedica) {
         this.numeroCarteiraMedica = numeroCarteiraMedica;
     }
 
@@ -87,12 +107,16 @@ public class Medico {
         this.especialidade = especialidade;
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public String toString() {
+        return "Medico{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", idade=" + idade +
+                ", numeroCarteiraMedica='" + numeroCarteiraMedica + '\'' +
+                ", especialidade='" + especialidade + '\'' +
+                '}';
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 }

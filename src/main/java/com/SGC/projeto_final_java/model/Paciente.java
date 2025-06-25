@@ -1,36 +1,43 @@
 package com.SGC.projeto_final_java.model;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
 import jakarta.persistence.*;
- 
+import jakarta.validation.constraints.*;
+
 @Entity
+@Table(name = "pacientes")
 public class Paciente {
- 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
- 
+
     @NotBlank(message = "O nome é obrigatório!")
-    @Size(min = 2, max = 100, message = "O nome do utilizador deve ter entre 2 e 100 caracteres")
+    @Size(min = 2, max = 100, message = "O nome deve ter entre 2 e 100 caracteres")
     private String nome;
 
     @NotBlank(message = "O email é obrigatório!")
-    @Email(message = "Email incorreto")
+    @Email(message = "Formato de email inválido")
+    @Column(unique = true)
     private String email;
 
+    @NotBlank(message = "O nome de utilizador é obrigatório!")
+    @Column(unique = true)
+    private String username;
+
     @NotBlank(message = "Password obrigatória!")
+    @Size(min = 6, message = "A password deve ter pelo menos 6 caracteres")
     private String password;
 
     @NotNull(message = "A idade é obrigatória!")
-    @Min(value=18, message = "Idade inválida, deve ser maior de 18 anos.")
-    private int idade;
-    
-    @NotNull(message = "Número inválido")
-    @Min(value=1, message = "Idade inválida, deve ser maior de 18 anos.")
-    private int numeroUtente;
+    @Min(value = 18, message = "Deve ter pelo menos 18 anos")
+    private Integer idade;
+
+    @NotBlank(message = "Número de utente é obrigatório!")
+    @Column(unique = true)
+    private String numeroUtente;
+
+    public Paciente() {
+    }
 
     public Long getId() {
         return id;
@@ -56,20 +63,12 @@ public class Paciente {
         this.email = email;
     }
 
-    public int getIdade() {
-        return idade;
+    public String getUsername() {
+        return username;
     }
 
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    public int getNumeroUtente() {
-        return numeroUtente;
-    }
-
-    public void setNumeroUtente(int numeroUtente) {
-        this.numeroUtente = numeroUtente;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -79,5 +78,32 @@ public class Paciente {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    public Integer getIdade() {
+        return idade;
+    }
+
+    public void setIdade(Integer idade) {
+        this.idade = idade;
+    }
+
+    public String getNumeroUtente() {
+        return numeroUtente;
+    }
+
+    public void setNumeroUtente(String numeroUtente) {
+        this.numeroUtente = numeroUtente;
+    }
+
+    @Override
+    public String toString() {
+        return "Paciente{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", idade=" + idade +
+                ", numeroUtente='" + numeroUtente + '\'' +
+                '}';
+    }
 }
