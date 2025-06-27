@@ -7,6 +7,7 @@ import com.SGC.projeto_final_java.repository.ConsultaRepository;
 import com.SGC.projeto_final_java.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,21 +26,25 @@ public class PacienteController {
 
     @GetMapping("/consultas")
     public String verConsultas(Authentication auth, Model model) {
-        Paciente paciente = pacienteRepository.findByUsername(auth.getName()).orElseThrow();
+        Paciente paciente = pacienteRepository.findByUsername(auth.getName());
+if (paciente == null) {
+    throw new UsernameNotFoundException("Paciente no encontrado");
+}
+
         List<Consulta> consultas = consultaRepository.findByPaciente(paciente);
         model.addAttribute("consultas", consultas);
-        return "paciente/consultas";
+        return "pacientes/todas-consultas-paciente";
     }
 
-    @GetMapping("/consultas/nova")
-    public String novaConsulta(Model model) {
+    @GetMapping("/consultas/criar")
+    public String criarConsulta(Model model) {
         model.addAttribute("consulta", new Consulta());
-        return "paciente/nova-consulta";
+        return "pacientes/criar-consulta-paciente";
     }
 
-    @PostMapping("/consultas")
+    @PostMapping("/consultas/criar")
     public String agendarConsulta(@ModelAttribute Consulta consulta, Authentication auth) {
-        Paciente paciente = pacienteRepository.findByUsername(auth.getName()).orElseThrow();
+        Paciente paciente = pacienteRepository.findByUsername(auth.getName());
         consulta.setPaciente(paciente);
         consulta.setStatus(EnumStatusConsulta.PENDENTE);
         consultaRepository.save(consulta);

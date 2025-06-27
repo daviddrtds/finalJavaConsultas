@@ -25,6 +25,10 @@ public class HorarioDisponivel {
     public HorarioDisponivel() {}
 
     public HorarioDisponivel(Medico medico, LocalDateTime inicio, LocalDateTime fim) {
+        if (inicio != null && fim != null && fim.isBefore(inicio)) {
+            throw new IllegalArgumentException("Data de fim deve ser posterior à data de início");
+        }
+
         this.medico = medico;
         this.dataHoraInicio = inicio;
         this.dataHoraFim = fim;

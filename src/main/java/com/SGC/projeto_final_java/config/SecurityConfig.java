@@ -45,12 +45,12 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
          http
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/login", "/registo", "/h2-console/**").permitAll()
-                    .requestMatchers("/medico/**").hasAuthority("MEDICO")
-                    .requestMatchers("/paciente/**").hasAuthority("PACIENTE")
+                    .requestMatchers("/medico/**").hasRole("MEDICO")
+                    .requestMatchers("/paciente/**").hasRole("PACIENTE")
                     .anyRequest().authenticated())
             .formLogin(login -> login
                     .loginPage("/login")
-                    .defaultSuccessUrl("/dashboard", true)
+                    .defaultSuccessUrl("/", true)
                     .permitAll()) // necessário
             .logout(logout -> logout
                     .logoutSuccessUrl("/login?logout")

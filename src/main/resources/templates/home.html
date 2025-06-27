@@ -16,6 +16,9 @@
     <a sec:authorize="hasRole('PACIENTE')" th:href="@{/paciente/consultas}"
       >Minhas Consultas</a
     ><br />
+    <a sec:authorize="hasRole('PACIENTE')" th:href="@{/paciente/consultas/criar}"
+      >Criar Consulta</a
+    ><br />
     <a sec:authorize="hasRole('MEDICO')" th:href="@{/medico/consultas}"
       >Consultas Pendentes</a
     ><br />

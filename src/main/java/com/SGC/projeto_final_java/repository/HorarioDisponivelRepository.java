@@ -9,7 +9,7 @@ import java.util.List;
 public interface HorarioDisponivelRepository extends JpaRepository<HorarioDisponivel, Long> {
 
     // Método para encontrar horários disponíveis por médico
-    List<HorarioDisponivel> findByMedico(Medico medico);
+    List<HorarioDisponivel> findByMedicoId(Long medicoId);
 
     // Método para encontrar horários disponíveis por data e hora
     List<HorarioDisponivel> findByDataHoraInicioBetween(LocalDateTime inicio, LocalDateTime fim);
