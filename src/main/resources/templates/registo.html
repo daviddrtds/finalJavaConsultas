@@ -31,6 +31,25 @@
         </div>
       </div>
 
+      <div>
+  <label for="username">Username:</label>
+  <input type="text" id="username" th:field="*{username}" />
+  <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+</div>
+
+<div>
+  <label for="idade">Idade:</label>
+  <input type="number" id="idade" th:field="*{idade}" />
+  <div th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></div>
+</div>
+
+<div>
+  <label for="numeroUtente">Nº Utente:</label>
+  <input type="text" id="numeroUtente" th:field="*{numeroUtente}" />
+  <div th:if="${#fields.hasErrors('numeroUtente')}" th:errors="*{numeroUtente}"></div>
+</div>
+
+
       <!-- outros campos -->
 
       <button type="submit">Registar</button>

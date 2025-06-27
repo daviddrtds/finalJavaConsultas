@@ -20,6 +20,7 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     @GetMapping("/registo")
     public String mostrarFormulario(Model model) {
         model.addAttribute("paciente", new Paciente());
@@ -30,14 +31,14 @@ public class AuthController {
     public String registarPaciente(@Valid @ModelAttribute("paciente") Paciente paciente,
             BindingResult result,
             Model model) {
-        if (result.hasErrors()) {
-            return "registo";
-        }
+        // if (result.hasErrors()) {
+        //     return "registo";
+        // }
 
-        if (pacienteRepository.findByEmail(paciente.getEmail()) != null) {
-            model.addAttribute("erroEmail", "Já existe um utilizador com esse email.");
-            return "registo";
-        }
+        // if (pacienteRepository.findByEmail(paciente.getEmail()) != null) {
+        //     model.addAttribute("erroEmail", "Já existe um utilizador com esse email.");
+        //     return "registo";
+        // }
 
         paciente.setPassword(passwordEncoder.encode(paciente.getPassword()));
         pacienteRepository.save(paciente);

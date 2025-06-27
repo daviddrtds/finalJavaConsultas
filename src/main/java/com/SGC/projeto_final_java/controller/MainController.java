@@ -16,6 +16,11 @@ public class MainController {
         return "login";
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/login?logout";
+    }
+
     @GetMapping("/erro")
     public String erro() {
         return "erro";
