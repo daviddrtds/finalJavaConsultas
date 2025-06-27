@@ -15,24 +15,18 @@ public class Consulta {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "medico_id", nullable = false)
-    @NotNull(message = "O médico é obrigatório")
-    private Medico medico;
-
-    @ManyToOne
     @JoinColumn(name = "paciente_id", nullable = false)
     @NotNull(message = "O paciente é obrigatório")
     private Paciente paciente;
 
-    @NotNull(message = "A data de início é obrigatória")
-    private LocalDateTime dataHoraInicio;
-
-    @NotNull(message = "A data de fim é obrigatória")
-    private LocalDateTime dataHoraFim;
-
     @NotBlank(message = "A descrição é obrigatória")
     @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres")
     private String descricao;
+
+    @OneToOne
+    @JoinColumn(name = "horarioDisponivel_id", nullable = false)
+    @NotNull(message = "O horário é obrigatório")
+    private HorarioDisponivel horarioDisponivel;
 
     @Enumerated(EnumType.STRING)
     private EnumStatusConsulta status = EnumStatusConsulta.PENDENTE;
@@ -48,12 +42,12 @@ public class Consulta {
         this.id = id;
     }
 
-    public Medico getMedico() {
-        return medico;
+    public HorarioDisponivel getHorarioDisponivel() {
+        return horarioDisponivel;
     }
 
-    public void setMedico(Medico medico) {
-        this.medico = medico;
+    public void setHorarioDisponivel(HorarioDisponivel horarioDisponivel) {
+        this.horarioDisponivel = horarioDisponivel;
     }
 
     public Paciente getPaciente() {
@@ -62,22 +56,6 @@ public class Consulta {
 
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
-    }
-
-    public LocalDateTime getDataHoraInicio() {
-        return dataHoraInicio;
-    }
-
-    public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
-        this.dataHoraInicio = dataHoraInicio;
-    }
-
-    public LocalDateTime getDataHoraFim() {
-        return dataHoraFim;
-    }
-
-    public void setDataHoraFim(LocalDateTime dataHoraFim) {
-        this.dataHoraFim = dataHoraFim;
     }
 
     public String getDescricao() {
@@ -100,10 +78,8 @@ public class Consulta {
     public String toString() {
         return "Consulta{" +
                 "id=" + id +
-                ", medico=" + medico.getNome() +
                 ", paciente=" + paciente.getNome() +
-                ", dataHoraInicio=" + dataHoraInicio +
-                ", dataHoraFim=" + dataHoraFim +
+                ", horarioDisponivel=" + horarioDisponivel +
                 ", descricao='" + descricao + '\'' +
                 ", status=" + status +
                 '}';
