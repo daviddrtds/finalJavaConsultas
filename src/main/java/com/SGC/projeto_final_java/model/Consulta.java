@@ -3,6 +3,7 @@ package com.SGC.projeto_final_java.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -23,11 +24,11 @@ public class Consulta {
     @NotNull(message = "O paciente é obrigatório")
     private Paciente paciente;
 
-    @NotNull(message = "A data é obrigatória")
-    private LocalDate data;
+    @NotNull(message = "A data de início é obrigatória")
+    private LocalDateTime dataHoraInicio;
 
-    @NotNull(message = "A hora é obrigatória")
-    private LocalTime hora;
+    @NotNull(message = "A data de fim é obrigatória")
+    private LocalDateTime dataHoraFim;
 
     @NotBlank(message = "A descrição é obrigatória")
     @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres")
@@ -63,20 +64,20 @@ public class Consulta {
         this.paciente = paciente;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDateTime getDataHoraInicio() {
+        return dataHoraInicio;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
+        this.dataHoraInicio = dataHoraInicio;
     }
 
-    public LocalTime getHora() {
-        return hora;
+    public LocalDateTime getDataHoraFim() {
+        return dataHoraFim;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
     }
 
     public String getDescricao() {
@@ -101,8 +102,8 @@ public class Consulta {
                 "id=" + id +
                 ", medico=" + medico.getNome() +
                 ", paciente=" + paciente.getNome() +
-                ", data=" + data +
-                ", hora=" + hora +
+                ", dataHoraInicio=" + dataHoraInicio +
+                ", dataHoraFim=" + dataHoraFim +
                 ", descricao='" + descricao + '\'' +
                 ", status=" + status +
                 '}';

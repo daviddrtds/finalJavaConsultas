@@ -31,14 +31,19 @@ public class AuthController {
     public String registarPaciente(@Valid @ModelAttribute("paciente") Paciente paciente,
             BindingResult result,
             Model model) {
-        // if (result.hasErrors()) {
-        //     return "registo";
-        // }
+        if (result.hasErrors()) {
+            return "registo";
+        }
 
-        // if (pacienteRepository.findByEmail(paciente.getEmail()) != null) {
-        //     model.addAttribute("erroEmail", "Já existe um utilizador com esse email.");
-        //     return "registo";
-        // }
+        if (pacienteRepository.findByEmail(paciente.getEmail()) != null) {
+            model.addAttribute("erroEmail", "Já existe um utilizador com esse email.");
+            return "registo";
+        }
+
+        if (pacienteRepository.findByNumeroUtente(paciente.getNumeroUtente()) != null) {
+            model.addAttribute("erroNumeroUtente", "Já existe um utilizador com esse número de utente.");
+            return "registo";
+        }
 
         paciente.setPassword(passwordEncoder.encode(paciente.getPassword()));
         pacienteRepository.save(paciente);

@@ -42,9 +42,9 @@ public class SecurityConfig {
 
 @Bean
 public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http
+         http
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/login", "/registo").permitAll()
+                    .requestMatchers("/login", "/registo", "/h2-console/**").permitAll()
                     .requestMatchers("/medico/**").hasAuthority("MEDICO")
                     .requestMatchers("/paciente/**").hasAuthority("PACIENTE")
                     .anyRequest().authenticated())
@@ -57,7 +57,13 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
                     .permitAll()) // necessário
-            .build();
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/h2-console/**")
+            ).headers(headers -> headers
+                .frameOptions().disable()
+            );
+
+        return http.build();
 }
 
 

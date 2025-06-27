@@ -10,25 +10,20 @@
       <div>
         <label for="nome">Nome:</label>
         <input type="text" id="nome" th:field="*{nome}" />
-        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
-          Erro no nome
-        </div>
+        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+
       </div>
 
       <div>
         <label for="email">Email:</label>
         <input type="email" id="email" th:field="*{email}" />
-        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
-          Erro no email
-        </div>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
       </div>
 
       <div>
         <label for="password">Password:</label>
         <input type="password" id="password" th:field="*{password}" />
-        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-          Erro na password
-        </div>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
       </div>
 
       <div>
@@ -58,5 +53,10 @@
     <div th:if="${erroEmail != null}">
       <p th:text="${erroEmail}" style="color: red"></p>
     </div>
+
+    <div th:if="${erroNumeroUtente != null}">
+      <p th:text="${erroNumeroUtente}" style="color: red"></p>
+    </div>
+
   </body>
 </html>
