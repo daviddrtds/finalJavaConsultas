@@ -26,7 +26,7 @@ public class PacienteController {
 
     @GetMapping("/consultas")
     public String verConsultas(Authentication auth, Model model) {
-        Paciente paciente = pacienteRepository.findByUsername(auth.getName());
+        Paciente paciente = pacienteRepository.findByEmail(auth.getName());
 if (paciente == null) {
     throw new UsernameNotFoundException("Paciente no encontrado");
 }
