@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>As Minhas Consultas</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Opcional -->
+</head>
+<body>
+    <h1>As Minhas Consultas</h1>
+
+    <a href="/pacientes/nova-consulta-paciente">
+        <button>Marcar Nova Consulta</button>
+    </a>
+
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Estado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Ciclo sobre a lista de consultas -->
+            <tr th:each="consulta : ${consultas}">
+                <td th:text="${#dates.format(consulta.data, 'dd/MM/yyyy')}"></td>
+                <td th:text="${consulta.hora}"></td>
+                <td th:text="${consulta.status}"></td>
+                <td>
+                    <span th:if="${consulta.status.name() == 'PENDENTE'}">
+                        <form th:action="@{'/paciente/consultas/' + ${consulta.id} + '/cancelar'}" method="post" style="display:inline;">
+                            <button type="submit">Cancelar</button>
+                        </form>
+                    </span>
+                    <span th:if="${consulta.status.name() != 'PENDENTE'}">-</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

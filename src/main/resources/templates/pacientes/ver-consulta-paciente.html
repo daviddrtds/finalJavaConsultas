@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Consulta</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Opcional -->
+</head>
+<body>
+
+    <h1>Detalhes da Consulta</h1>
+
+    <table border="1" cellpadding="10" cellspacing="0">
+        <tr>
+            <th>Data:</th>
+            <td th:text="${#dates.format(consulta.data, 'dd/MM/yyyy')}"></td>
+        </tr>
+        <tr>
+            <th>Hora:</th>
+            <td th:text="${consulta.hora}"></td>
+        </tr>
+        <tr>
+            <th>Estado:</th>
+            <td th:text="${consulta.status}"></td>
+        </tr>
+    </table>
+
+    <br>
+
+    <a href="/pacientes/todas-consultas-paciente">
+        <button>Voltar à Lista</button>
+    </a>
+
+    <span th:if="${consulta.status.name() == 'PENDENTE'}">
+        <form th:action="@{'/paciente/consultas/' + ${consulta.id} + '/cancelar'}" method="post" style="display:inline;">
+            <b
