@@ -64,3 +64,20 @@ button {
 button:hover {
   background-color: #004d40;
 }
+
+.back-button {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  background-color: #eeeeee;
+  color: #00796b;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #d0f0f0;
+}
