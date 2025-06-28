@@ -16,6 +16,7 @@
                 <th>Médico</th>
                 <th>Descrição</th>
                 <th>Status</th>
+                <th>Ações</th>
             </tr>
         </thead>
 <tr th:each="consulta : ${consultas}">
@@ -23,6 +24,11 @@
     <td th:text="${consulta.horarioDisponivel?.medico?.nome}"></td>
     <td th:text="${consulta.descricao}"></td>
     <td th:text="${consulta.status}"></td>
+    <td>
+                    <form th:action="@{'/paciente/consultas/' + ${consulta.id} + '/cancelar'}" method="post" th:if="${consulta.status.name() != 'CANCELADA'}">
+                        <button type="submit" onclick="return confirm('Tem certeza que deseja cancelar esta consulta?')">Cancelar</button>
+                    </form>
+                </td>
 </tr>
 
     </table>
