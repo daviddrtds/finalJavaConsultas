@@ -1,0 +1,47 @@
+.container {
+  background: #ffffffcc;
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #00796b;
+}
+
+p {
+  margin: 10px 0;
+  font-size: 1.1em;
+}
+
+a {
+  display: block;
+  text-decoration: none;
+  background-color: #00796b;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+  transition: background 0.3s ease;
+  font-weight: bold;
+}
+
+a:hover {
+  background-color: #004d40;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+}

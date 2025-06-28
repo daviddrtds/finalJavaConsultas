@@ -40,32 +40,32 @@ public class SecurityConfig {
     // return http.build();
     // }
 
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-         http
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/login", "/registo", "/h2-console/**").permitAll()
-                    .requestMatchers("/medico/**").hasRole("MEDICO")
-                    .requestMatchers("/paciente/**").hasRole("PACIENTE")
-                    .anyRequest().authenticated())
-            .formLogin(login -> login
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/", true)
-                    .permitAll()) // necessário
-            .logout(logout -> logout
-                    .logoutSuccessUrl("/login?logout")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .permitAll()) // necessário
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**")
-            ).headers(headers -> headers
-                .frameOptions().disable()
-            );
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "*.css", "/login", "/registo", "/h2-console/**")
+                        .permitAll()
+                        .requestMatchers("/medico/**").hasRole("MEDICO")
+                        .requestMatchers("/paciente/**").hasRole("PACIENTE")
+                        .anyRequest().authenticated())
+                .formLogin(login -> login
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()) // necessário
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()) // necessário
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**"))
+                .headers(headers -> headers
+                        .frameOptions().disable());
 
         return http.build();
-}
-
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -73,12 +73,13 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     }
 
     // @Bean
-    // public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-    //     return http.getSharedObject(AuthenticationManagerBuilder.class)
-    //             .userDetailsService(customUserDetailsService)
-    //             .passwordEncoder(passwordEncoder())
-    //             .and()
-    //             .build();
+    // public AuthenticationManager authenticationManager(HttpSecurity http) throws
+    // Exception {
+    // return http.getSharedObject(AuthenticationManagerBuilder.class)
+    // .userDetailsService(customUserDetailsService)
+    // .passwordEncoder(passwordEncoder())
+    // .and()
+    // .build();
     // }
 
     @Bean
