@@ -1,0 +1,51 @@
+.consulta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.consulta-table th,
+.consulta-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.consulta-table th {
+  background-color: #e0f2f1;
+  color: #00695c;
+}
+
+.consulta-table td {
+  background-color: #f9f9f9;
+}
+
+button.small {
+  padding: 6px 12px;
+  font-size: 0.9em;
+}
+
+.info-msg {
+  margin-top: 20px;
+  text-align: center;
+  color: #555;
+  font-style: italic;
+}
+
+a.link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #00796b;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  background-color: #eeeeee;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+a.link:hover {
+  background-color: #d0f0f0;
+  text-decoration: none;
+}
