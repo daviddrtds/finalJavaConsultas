@@ -7,6 +7,7 @@ import com.SGC.projeto_final_java.repository.ConsultaRepository;
 import com.SGC.projeto_final_java.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/medico")
 public class MedicoController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ConsultaRepository consultaRepository;
@@ -37,4 +41,30 @@ public class MedicoController {
         consultaRepository.save(consulta);
         return "redirect:/medico/consultas";
     }
+
+    @GetMapping("/admin/adicionar")
+    public String mostrarFormAdmin(Model model, Authentication auth) {
+        if (!isAdmin(auth))
+            return "redirect:/";
+
+        model.addAttribute("medico", new Medico());
+        return "adminForm/adminForm";
+    }
+
+    // Processa submissão do formulário
+    @PostMapping("/admin/adicionar")
+    public String adicionarMedico(@ModelAttribute Medico medico, Authentication auth) {
+        if (!isAdmin(auth))
+            return "redirect:/";
+
+        medico.setPassword(passwordEncoder.encode(medico.getPassword()));
+        medicoRepository.save(medico);
+        return "redirect:/medico/admin/adicionar?sucesso";
+    }
+
+    // Método auxiliar
+    private boolean isAdmin(Authentication auth) {
+        return auth != null && auth.getName().equals("admin@admin.com");
+    }
+
 }

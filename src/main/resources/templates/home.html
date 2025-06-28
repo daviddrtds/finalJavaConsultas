@@ -30,6 +30,13 @@
       <a sec:authorize="hasRole('MEDICO')" th:href="@{/medico/consultas}">
         Todas as Consultas
       </a>
+      <a
+        sec:authorize="isAuthenticated() and principal.username == 'admin@admin.com'"
+        th:href="@{/medico/admin/adicionar}"
+        class="link"
+      >
+        + Adicionar Médico
+      </a>
       <a th:href="@{/logout}">Logout</a>
     </div>
   </body>
