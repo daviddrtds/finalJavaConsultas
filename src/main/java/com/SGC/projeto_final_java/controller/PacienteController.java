@@ -55,7 +55,7 @@ if (paciente == null) {
     public String cancelarConsulta(@PathVariable Long id, Authentication auth) {
         Consulta consulta = consultaRepository.findById(id).orElseThrow();
         // Só pode cancelar se for do próprio paciente (regras de negócio)
-        if (consulta.getPaciente().getUsername().equals(auth.getName())) {
+        if (consulta.getPaciente().getEmail().equals(auth.getName())) {
             consulta.setStatus(EnumStatusConsulta.CANCELADA);
             consultaRepository.save(consulta);
         }
