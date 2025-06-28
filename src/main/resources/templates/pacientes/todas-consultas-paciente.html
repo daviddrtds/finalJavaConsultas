@@ -1,13 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-PT" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>As minhas Consultas</title>
-    <link rel="stylesheet" href="/css/styles.css" /> <!-- Opcional -->
-</head>
-<body>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <link rel="stylesheet" th:href="@{/consultas.css}" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>As minhas Consultas</h1>
 
-    <h1>As minhas Consultas</h1>
+      <table
+        class="consulta-table"
+        th:if="${consultas != null and !consultas.isEmpty()}"
+      >
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Especialidade</th>
+            <th>Médico</th>
+            <th>Estado</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="consulta : ${consultas}">
+            <td th:text="${#dates.format(consulta.data, 'dd/MM/yyyy')}">
+              25/06/2025
+            </td>
+            <td th:text="${consulta.hora}">14:30</td>
+            <td th:text="${consulta.especialidade}">Cardiologia</td>
+            <td th:text="${consulta.medico.nome}">Dr. Silva</td>
+            <td th:text="${consulta.status}">PENDENTE</td>
+            <td>
+              <a
+                th:href="@{'/paciente/consultas/' + ${consulta.id}}"
+                class="link"
+                >Ver</a
+              >
+              <form
+                th:if="${consulta.status.name() == 'PENDENTE'}"
+                th:action="@{'/paciente/consultas/' + ${consulta.id} + '/cancelar'}"
+                method="post"
+                style="display: inline"
+              >
+                <button type="submit" class="danger small">Cancelar</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-</body>
+      <p th:if="${consultas == null or consultas.isEmpty()}" class="info-msg">
+        Não existem consultas agendadas.
+      </p>
+
+      <a th:href="@{/}" class="link">← Voltar ao Início</a>
+    </div>
+  </body>
 </html>
