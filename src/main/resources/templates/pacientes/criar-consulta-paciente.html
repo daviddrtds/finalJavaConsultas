@@ -1,115 +1,132 @@
-<form action="/paciente/consultas/criar" th:object="${consulta}" method="post">
-    <label for="especialidade">Especialidade:</label>
-<select id="especialidade" name="especialidade">
-    <option value="">Carregando...</option>
-</select>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Agendar Consulta</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <link rel="stylesheet" th:href="@{/criarConsulta.css}" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Agendar Consulta</h2>
 
-    <label for="medico">Médico:</label>
-    <select id="medico" name="medicoId"></select>
+      <form
+        action="/paciente/consultas/criar"
+        th:object="${consulta}"
+        method="post"
+      >
+        <label for="especialidade">Especialidade:</label>
+        <select id="especialidade" name="especialidade" required>
+          <option value="">Carregando...</option>
+        </select>
 
-    <label for="horario">Horário Disponível:</label>
-    <select id="horario" name="horarioDisponivel.id"></select>
+        <label for="medico">Médico:</label>
+        <select id="medico" name="medicoId" required></select>
 
-    <label for="descricao">Descrição:</label>
-    <input type="text" name="descricao" required>
+        <label for="horario">Horário Disponível:</label>
+        <select id="horario" name="horarioDisponivel.id" required></select>
 
-    <button type="submit">Agendar Consulta</button>
-</form>
+        <label for="descricao">Descrição:</label>
+        <input type="text" name="descricao" required />
 
-<script>
-// Função para carregar especialidades no select
-function carregarEspecialidades() {
-  fetch('/ajax/especialidades')
-    .then(res => res.json())
-    .then(data => {
-      const select = document.getElementById('especialidade');
-      select.innerHTML = '<option value="">Selecione</option>';
-      data.forEach(especialidade => {
-        select.innerHTML += `<option value="${especialidade}">${especialidade}</option>`;
-      });
-    })
-    .catch(() => {
-      const select = document.getElementById('especialidade');
-      select.innerHTML = '<option value="">Erro ao carregar especialidades</option>';
-    });
-}
+        <button type="submit">Agendar Consulta</button>
+      </form>
 
-// Quando especialidade mudar, carregar médicos
-document.getElementById('especialidade').addEventListener('change', function() {
-  const especialidade = this.value;
-  const medicoSelect = document.getElementById('medico');
-  const horarioSelect = document.getElementById('horario');
+      <a th:href="@{/}" class="link">← Voltar ao Início</a>
+    </div>
 
-  // Limpar selects de médico e horário
-  medicoSelect.innerHTML = '<option value="">Selecione</option>';
-  horarioSelect.innerHTML = '<option value="">Selecione</option>';
-
-  if (!especialidade) {
-    return;
-  }
-
-  fetch(`/ajax/medicos/${especialidade}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.length === 0) {
-        medicoSelect.innerHTML = '<option value="">Nenhum médico encontrado</option>';
-      } else {
-        data.forEach(medico => {
-          medicoSelect.innerHTML += `<option value="${medico.id}">${medico.nome}</option>`;
-        });
+    <script>
+      // Função para carregar especialidades no select
+      function carregarEspecialidades() {
+        fetch("/ajax/especialidades")
+          .then((res) => res.json())
+          .then((data) => {
+            const select = document.getElementById("especialidade");
+            select.innerHTML = '<option value="">Selecione</option>';
+            data.forEach((especialidade) => {
+              select.innerHTML += `<option value="${especialidade}">${especialidade}</option>`;
+            });
+          })
+          .catch(() => {
+            const select = document.getElementById("especialidade");
+            select.innerHTML =
+              '<option value="">Erro ao carregar especialidades</option>';
+          });
       }
-    })
-    .catch(() => {
-      medicoSelect.innerHTML = '<option value="">Erro ao carregar médicos</option>';
-    });
-});
 
-// Quando médico mudar, carregar horários disponíveis
-document.getElementById('medico').addEventListener('change', function() {
-  const medicoId = this.value;
-  const horarioSelect = document.getElementById('horario');
+      // Quando especialidade mudar, carregar médicos
+      document
+        .getElementById("especialidade")
+        .addEventListener("change", function () {
+          const especialidade = this.value;
+          const medicoSelect = document.getElementById("medico");
+          const horarioSelect = document.getElementById("horario");
 
-  // Limpar select de horário
-  horarioSelect.innerHTML = '<option value="">Selecione</option>';
+          medicoSelect.innerHTML = '<option value="">Selecione</option>';
+          horarioSelect.innerHTML = '<option value="">Selecione</option>';
 
-  if (!medicoId) {
-    return;
-  }
+          if (!especialidade) return;
 
-  fetch(`/ajax/horarios/${medicoId}`)
-  .then(res => res.json())
-  .then(data => {
-    const horarioSelect = document.getElementById('horario');
-    horarioSelect.innerHTML = '<option value="">Selecione</option>';
+          fetch(`/ajax/medicos/${especialidade}`)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.length === 0) {
+                medicoSelect.innerHTML =
+                  '<option value="">Nenhum médico encontrado</option>';
+              } else {
+                data.forEach((medico) => {
+                  medicoSelect.innerHTML += `<option value="${medico.id}">${medico.nome}</option>`;
+                });
+              }
+            })
+            .catch(() => {
+              medicoSelect.innerHTML =
+                '<option value="">Erro ao carregar médicos</option>';
+            });
+        });
 
-    if (data.length === 0) {
-      horarioSelect.innerHTML = '<option value="">Nenhum horário disponível</option>';
-    } else {
-      data.forEach(horario => {
-        // Extrai a dataHoraInicio (ex: "2025-06-27T14:30:00")
-        const dataInicio = new Date(horario.dataHoraInicio);
+      // Quando médico mudar, carregar horários disponíveis
+      document.getElementById("medico").addEventListener("change", function () {
+        const medicoId = this.value;
+        const horarioSelect = document.getElementById("horario");
 
-        // Formata para algo legível: "27/06/2025 14:30"
-        const dia = String(dataInicio.getDate()).padStart(2, '0');
-        const mes = String(dataInicio.getMonth() + 1).padStart(2, '0');
-        const ano = dataInicio.getFullYear();
-        const horas = String(dataInicio.getHours()).padStart(2, '0');
-        const minutos = String(dataInicio.getMinutes()).padStart(2, '0');
+        horarioSelect.innerHTML = '<option value="">Selecione</option>';
 
-        const textoHorario = `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+        if (!medicoId) return;
 
-        horarioSelect.innerHTML += `<option value="${horario.id}">${textoHorario}</option>`;
+        fetch(`/ajax/horarios/${medicoId}`)
+          .then((res) => res.json())
+          .then((data) => {
+            horarioSelect.innerHTML = '<option value="">Selecione</option>';
+
+            if (data.length === 0) {
+              horarioSelect.innerHTML =
+                '<option value="">Nenhum horário disponível</option>';
+            } else {
+              data.forEach((horario) => {
+                const dataInicio = new Date(horario.dataHoraInicio);
+                const dia = String(dataInicio.getDate()).padStart(2, "0");
+                const mes = String(dataInicio.getMonth() + 1).padStart(2, "0");
+                const ano = dataInicio.getFullYear();
+                const horas = String(dataInicio.getHours()).padStart(2, "0");
+                const minutos = String(dataInicio.getMinutes()).padStart(
+                  2,
+                  "0"
+                );
+                const textoHorario = `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+
+                horarioSelect.innerHTML += `<option value="${horario.id}">${textoHorario}</option>`;
+              });
+            }
+          })
+          .catch(() => {
+            horarioSelect.innerHTML =
+              '<option value="">Erro ao carregar horários</option>';
+          });
       });
-    }
-  })
-  .catch(() => {
-    const horarioSelect = document.getElementById('horario');
-    horarioSelect.innerHTML = '<option value="">Erro ao carregar horários</option>';
-  });
 
-});
-
-// Carrega as especialidades ao carregar a página
-window.addEventListener('load', carregarEspecialidades);
-
-</script>
+      // Inicializa especialidades
+      window.addEventListener("load", carregarEspecialidades);
+    </script>
+  </body>
+</html>
