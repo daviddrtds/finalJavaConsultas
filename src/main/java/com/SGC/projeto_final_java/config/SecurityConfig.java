@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "*.css", "/login", "/registo", "/h2-console/**")
                         .permitAll()
+                        .requestMatchers("/medico/admin/**").hasRole("ADMIN")
                         .requestMatchers("/medico/**").hasRole("MEDICO")
                         .requestMatchers("/paciente/**").hasRole("PACIENTE")
                         .anyRequest().authenticated())

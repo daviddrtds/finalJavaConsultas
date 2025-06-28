@@ -12,6 +12,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
     Medico findByUsername(String username);
     List<Medico> findByEspecialidade(String especialidade);
 
-    @Query("SELECT DISTINCT m.especialidade FROM Medico m")
+    @Query("SELECT DISTINCT m.especialidade FROM Medico m WHERE LOWER(m.especialidade) <> 'administrador'")
     List<String> findEspecialidadesDistintas();
+
 }

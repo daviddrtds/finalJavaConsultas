@@ -4,8 +4,11 @@ import com.SGC.projeto_final_java.model.Medico;
 import com.SGC.projeto_final_java.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.userdetails.*;
+
 
 @Component
 public class DefaultAdminInitializer implements CommandLineRunner {
@@ -31,7 +34,14 @@ public class DefaultAdminInitializer implements CommandLineRunner {
             admin.setEspecialidade("Administrador");
 
             medicoRepository.save(admin);
-            System.out.println("✔ Admin criado com sucesso (email: " + adminEmail + ")");
+
+            UserDetails user = User.builder()
+                .username(admin.getEmail())
+                .password(admin.getPassword())
+                .roles("MEDICO", "ADMIN", "PACIENTE")
+                .build();
+
+            System.out.println("Admin criado com sucesso (email: " + adminEmail + ")");
         } else {
             System.out.println("ℹ Admin já existe (email: " + adminEmail + ")");
         }

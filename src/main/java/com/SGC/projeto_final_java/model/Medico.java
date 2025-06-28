@@ -36,8 +36,7 @@ public class Medico {
     @Column(unique = true)
     private String numeroCarteiraMedica;
 
-    @NotBlank(message = "A especialidade é obrigatória!")
-    @Size(min = 2, max = 100, message = "A especialidade deve ter entre 2 e 100 caracteres")
+    @Size(min = 0, max = 100, message = "A especialidade deve ter entre 0 e 100 caracteres")
     private String especialidade;
 
     public Medico() {
