@@ -44,7 +44,7 @@ public class PacienteController {
 
     @PostMapping("/consultas/criar")
     public String agendarConsulta(@ModelAttribute Consulta consulta, Authentication auth) {
-        Paciente paciente = pacienteRepository.findByUsername(auth.getName());
+        Paciente paciente = pacienteRepository.findByEmail(auth.getName());
         consulta.setPaciente(paciente);
         consulta.setStatus(EnumStatusConsulta.PENDENTE);
         consultaRepository.save(consulta);

@@ -26,7 +26,7 @@ public class ConsultaAjaxController {
 
     @GetMapping("/horarios/{medicoId}")
     public List<HorarioDisponivel> listarHorariosPorMedico(@PathVariable Long medicoId) {
-        return horarioDisponivelRepository.findByMedicoId(medicoId);
+        return horarioDisponivelRepository.findHorariosDisponiveisPorMedico(medicoId);
     }
 
     @GetMapping("/especialidades")

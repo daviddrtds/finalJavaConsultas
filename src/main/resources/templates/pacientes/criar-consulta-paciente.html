@@ -113,7 +113,17 @@
                   2,
                   "0"
                 );
-                const textoHorario = `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+
+                const dataFim = new Date(horario.dataHoraFim);
+                const diaFim = String(dataFim.getDate()).padStart(2, "0");
+                const mesFim = String(dataFim.getMonth() + 1).padStart(2, "0");
+                const anoFim = dataFim.getFullYear();
+                const horasFim = String(dataFim.getHours()).padStart(2, "0");
+                const minutosFim = String(dataFim.getMinutes()).padStart(
+                  2,
+                  "0"
+                );
+                const textoHorario = `${dia}/${mes}/${ano} ${horas}:${minutos} - ${horasFim}:${minutosFim}`;
 
                 horarioSelect.innerHTML += `<option value="${horario.id}">${textoHorario}</option>`;
               });

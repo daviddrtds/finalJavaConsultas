@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .permitAll()) // necessário
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/h2-console/**"))
+                        .ignoringRequestMatchers("/h2-console/**", "/paciente/**"))
                 .headers(headers -> headers
                         .frameOptions().disable());
 
