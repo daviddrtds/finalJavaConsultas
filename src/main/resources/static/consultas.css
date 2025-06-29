@@ -79,18 +79,19 @@ button.danger:hover {
 
 /* Cor de fundo por tipo de status */
 td.status.pendente {
-  background-color: #eec84a; /* amarelo-alaranjado */
+  background-color: #ffce2cb7; /* amarelo-alaranjado */
 }
 
 td.status.concluida {
-  background-color: #29ac30; /* verde */
+  background-color: #2ce935a9; /* verde */
 }
 
 td.status.cancelada {
-  background-color: #eb4744; /* vermelho */
+  background-color: #f32a27ab; /* vermelho */
 }
 
-select {
+td.status select {
+  color: #2c2c2c;
   padding: 6px;
   border-radius: 6px;
   border: none;

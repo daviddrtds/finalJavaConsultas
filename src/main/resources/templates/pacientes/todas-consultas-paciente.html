@@ -31,7 +31,10 @@
             ></td>
             <td th:text="${consulta.horarioDisponivel?.medico?.nome}"></td>
             <td th:text="${consulta.descricao}"></td>
-            <td th:text="${consulta.status}"></td>
+            <td
+              th:text="${consulta.status.name().toLowerCase()}"
+              th:class="'status ' + ${consulta.status.name().toLowerCase()}"
+            ></td>
             <td>
               <form
                 th:action="@{'/paciente/consultas/' + ${consulta.id} + '/cancelar'}"
