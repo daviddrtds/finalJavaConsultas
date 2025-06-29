@@ -31,7 +31,7 @@ public class MedicoController {
     public String verConsultas(Model model) {
         List<Consulta> consultas = consultaRepository.findAll();
         model.addAttribute("consultas", consultas);
-        return "medico/consultas";
+        return "medico/todas-consultas-medico";
     }
 
     @PostMapping("/consultas/{id}/estado")

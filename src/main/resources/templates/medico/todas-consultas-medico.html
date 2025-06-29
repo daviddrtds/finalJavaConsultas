@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-PT" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>As minhas Consultas</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <link rel="stylesheet" th:href="@{/consultas.css}" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>As minhas Consultas</h2>
+
+      <table
+        class="consulta-table"
+        th:if="${consultas != null and !consultas.isEmpty()}"
+      >
+        <thead>
+          <tr>
+            <th>Data e Hora</th>
+            <th>Médico</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="consulta : ${consultas}">
+            <td
+              class="data-hora"
+              th:text="${consulta.horarioDisponivel.dataHoraInicio}"
+            ></td>
+            <td th:text="${consulta.horarioDisponivel?.medico?.nome}"></td>
+            <td th:text="${consulta.descricao}"></td>
+            <td th:text="${consulta.status}"></td>
+            <td>
+              <form
+                th:action="@{'/paciente/consultas/' + ${consulta.id} + '/cancelar'}"
+                method="post"
+                th:if="${consulta.status.name() != 'CANCELADA'}"
+              >
+                <button
+                  type="submit"
+                  class="danger"
+                  onclick="return confirm('Tem certeza que deseja cancelar esta consulta?')"
+                >
+                  Desmarcar
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p th:if="${consultas == null or consultas.isEmpty()}" class="info-msg">
+        Não existem consultas agendadas.
+      </p>
+
+      <a th:href="@{/}" class="link">← Voltar</a>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const formatarDataHora = (isoString) => {
+          const data = new Date(isoString);
+          if (isNaN(data.getTime())) return isoString;
+
+          const dia = String(data.getDate()).padStart(2, "0");
+          const mes = String(data.getMonth() + 1).padStart(2, "0");
+          const ano = data.getFullYear();
+          const horas = String(data.getHours()).padStart(2, "0");
+          const minutos = String(data.getMinutes()).padStart(2, "0");
+
+          return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+        };
+
+        const elementos = document.querySelectorAll(".data-hora");
+        elementos.forEach((el) => {
+          const original = el.textContent.trim();
+          el.textContent = formatarDataHora(original);
+        });
+      });
+    </script>
+  </body>
+</html>
