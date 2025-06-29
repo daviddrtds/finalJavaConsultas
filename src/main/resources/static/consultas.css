@@ -17,7 +17,7 @@
 
 .consulta-table th,
 .consulta-table td {
-  padding: 12px;
+  padding: 20px;
   border: 1px solid #ccc;
   text-align: left;
 }
@@ -75,4 +75,25 @@ button.danger:hover {
   text-align: center;
   color: #777;
   font-style: italic;
+}
+
+/* Cor de fundo por tipo de status */
+td.status.pendente {
+  background-color: #eec84a; /* amarelo-alaranjado */
+}
+
+td.status.concluida {
+  background-color: #29ac30; /* verde */
+}
+
+td.status.cancelada {
+  background-color: #eb4744; /* vermelho */
+}
+
+select {
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  background-color: transparent;
+  font-weight: 500;
 }

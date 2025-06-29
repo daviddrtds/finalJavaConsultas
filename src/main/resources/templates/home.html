@@ -48,7 +48,7 @@
         sec:authorize="isAuthenticated() and hasRole('MEDICO')"
         class="infos"
       >
-        <h3 th:text="'Olá Dr(a). ' + ${medico.nome}"></h3>
+        <h3 th:text="'Olá ' + ${medico.nome}"></h3>
         <div class="linhasInfo">
           <strong>Nome:</strong> <span th:text="${medico.nome}"></span>
         </div>
