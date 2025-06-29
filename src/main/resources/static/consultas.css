@@ -1,7 +1,18 @@
+.container {
+  background: #ffffffcc;
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  max-width: 1250px;
+  width: 100%;
+}
+
 .consulta-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .consulta-table th,
@@ -12,40 +23,56 @@
 }
 
 .consulta-table th {
-  background-color: #e0f2f1;
+  background-color: #f0f0f0;
+  width: 30%;
   color: #00695c;
 }
 
 .consulta-table td {
-  background-color: #f9f9f9;
+  background-color: #fafafa;
 }
 
-button.small {
-  padding: 6px 12px;
-  font-size: 0.9em;
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button,
+a.link {
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+a.link {
+  background-color: #eeeeee;
+  color: #00796b;
+}
+
+a.link:hover {
+  background-color: #d0f0f0;
+}
+
+button.danger {
+  background-color: #d32f2f;
+  color: white;
+}
+
+button.danger:hover {
+  background-color: #b71c1c;
 }
 
 .info-msg {
   margin-top: 20px;
   text-align: center;
-  color: #555;
+  color: #777;
   font-style: italic;
-}
-
-a.link {
-  display: inline-block;
-  margin-top: 20px;
-  color: #00796b;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 6px;
-  background-color: #eeeeee;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-}
-
-a.link:hover {
-  background-color: #d0f0f0;
-  text-decoration: none;
 }
