@@ -21,25 +21,6 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
-    // Exception {
-    // http
-    // .csrf(csrf -> csrf.disable())
-    // .authorizeHttpRequests(auth -> auth
-    // .requestMatchers("/", "/registo", "/erro", "/css/**", "/js/**").permitAll()
-    // .requestMatchers("/paciente/**").hasRole("PACIENTE")
-    // .requestMatchers("/medico/**").hasRole("MEDICO")
-    // .anyRequest().authenticated())
-    // .formLogin(form -> form
-    // .loginPage("/login")
-    // .defaultSuccessUrl("/", true)
-    // .permitAll())
-    // .logout(logout -> logout.permitAll());
-
-    // return http.build();
-    // }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -72,16 +53,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    // @Bean
-    // public AuthenticationManager authenticationManager(HttpSecurity http) throws
-    // Exception {
-    // return http.getSharedObject(AuthenticationManagerBuilder.class)
-    // .userDetailsService(customUserDetailsService)
-    // .passwordEncoder(passwordEncoder())
-    // .and()
-    // .build();
-    // }
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {

@@ -19,13 +19,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
         Paciente paciente = pacienteRepository.findByEmail(email);
         if (paciente != null) {
             UserDetails user = User.builder()
-                .username(paciente.getEmail())
-                .password(paciente.getPassword())
-                .roles("PACIENTE")
-                .build();
+                    .username(paciente.getEmail())
+                    .password(paciente.getPassword())
+                    .roles("PACIENTE")
+                    .build();
 
             System.out.println("Login Paciente: " + paciente.getUsername() + ", Roles: " + user.getAuthorities());
             return user;
@@ -33,11 +34,21 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         Medico medico = medicoRepository.findByEmail(email);
         if (medico != null) {
-            UserDetails user = User.builder()
-                .username(medico.getEmail())
-                .password(medico.getPassword())
-                .roles("MEDICO")
-                .build();
+            UserDetails user;
+
+            if (medico.getEmail().equals("admin@admin.com")) {
+                user = User.builder()
+                        .username(medico.getEmail())
+                        .password(medico.getPassword())
+                        .roles("MEDICO", "ADMIN")
+                        .build();
+            } else {
+                user = User.builder()
+                        .username(medico.getEmail())
+                        .password(medico.getPassword())
+                        .roles("MEDICO")
+                        .build();
+            }
 
             System.out.println("Login Médico: " + medico.getEmail() + ", Roles: " + user.getAuthorities());
             return user;
