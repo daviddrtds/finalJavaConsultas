@@ -33,8 +33,10 @@ public class Medico {
     private Integer idade;
 
     @NotBlank(message = "Número de cédula profissional é obrigatório!")
+    @Pattern(regexp = "\\d{4,6}", message = "O número de cédula profissional deve conter entre 4 e 6 dígitos numéricos")
     @Column(unique = true)
     private String numeroCarteiraMedica;
+
 
     @Size(min = 0, max = 100, message = "A especialidade deve ter entre 0 e 100 caracteres")
     private String especialidade;

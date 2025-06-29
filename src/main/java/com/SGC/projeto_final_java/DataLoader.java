@@ -31,7 +31,7 @@ public class DataLoader {
             paciente1.setUsername("joaosilva");
             paciente1.setPassword(passwordEncoder.encode("senha123"));
             paciente1.setIdade(30);
-            paciente1.setNumeroUtente("UT123456");
+            paciente1.setNumeroUtente("987654321");
             pacienteRepository.save(paciente1);
 
             // Criar Médico
@@ -41,7 +41,7 @@ public class DataLoader {
             medico1.setUsername("mariasantos");
             medico1.setPassword(passwordEncoder.encode("senhaMedico123"));
             medico1.setIdade(40);
-            medico1.setNumeroCarteiraMedica("CRM123456");
+            medico1.setNumeroCarteiraMedica("1234");
             medico1.setEspecialidade("Cardiologia");
             medicoRepository.save(medico1);
 

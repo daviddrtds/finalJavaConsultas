@@ -33,8 +33,10 @@ public class Paciente {
     private Integer idade;
 
     @NotBlank(message = "Número de utente é obrigatório!")
+    @Pattern(regexp = "\\d{9}", message = "O número de utente deve conter exatamente 9 dígitos numéricos")
     @Column(unique = true)
     private String numeroUtente;
+
 
     public Paciente() {
     }

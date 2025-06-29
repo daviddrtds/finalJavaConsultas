@@ -18,6 +18,23 @@
       </p>
       <p sec:authorize="!isAuthenticated()">Não autenticado</p>
 
+    <div sec:authorize="isAuthenticated() and hasRole('PACIENTE')">
+      <h2>Informações do Paciente</h2>
+      <div><strong>Nome:</strong> <span th:text="${paciente.nome}"></span></div>
+      <div><strong>Email:</strong> <span th:text="${paciente.email}"></span></div>
+      <div><strong>Idade:</strong> <span th:text="${paciente.idade}"></span></div>
+      <div><strong>Nº Utente:</strong> <span th:text="${paciente.numeroUtente}"></span></div>
+    </div>
+
+    <div sec:authorize="isAuthenticated() and hasRole('MEDICO')">
+      <h2>Informações do Médico</h2>
+      <div><strong>Nome:</strong> <span th:text="${medico.nome}"></span></div>
+      <div><strong>Email:</strong> <span th:text="${medico.email}"></span></div>
+      <div><strong>Idade:</strong> <span th:text="${medico.idade}"></span></div>
+      <div><strong>Nº Carteira Médica:</strong> <span th:text="${medico.numeroCarteiraMedica}"></span></div>
+      <div><strong>Especialidade:</strong> <span th:text="${medico.especialidade}"></span></div>
+    </div>
+
       <a sec:authorize="hasRole('PACIENTE')" th:href="@{/paciente/consultas}">
         Minhas Consultas
       </a>
