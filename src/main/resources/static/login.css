@@ -73,10 +73,9 @@ p.error {
 }
 
 p.logout {
-  color: #388e3c;
+  color: #979797;
   margin-top: 15px;
   text-align: center;
-  font-weight: bold;
 }
 
 a.link {

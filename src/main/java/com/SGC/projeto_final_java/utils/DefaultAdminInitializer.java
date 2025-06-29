@@ -30,7 +30,7 @@ public class DefaultAdminInitializer implements CommandLineRunner {
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin123")); // Password segura e encriptada
             admin.setIdade(40);
-            admin.setNumeroCarteiraMedica("ADM-0000");
+            admin.setNumeroCarteiraMedica("ADM-0000"); 
             admin.setEspecialidade("Administrador");
 
             medicoRepository.save(admin);
