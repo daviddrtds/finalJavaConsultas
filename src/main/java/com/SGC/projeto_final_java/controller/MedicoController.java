@@ -28,11 +28,18 @@ public class MedicoController {
     private MedicoRepository medicoRepository;
 
     @GetMapping("/consultas")
-    public String verConsultas(Model model) {
-        List<Consulta> consultas = consultaRepository.findAll();
+        public String verConsultas(Model model, Authentication auth) {
+        if (auth == null) return "redirect:/login";
+
+        String email = auth.getName();
+        Medico medico = medicoRepository.findByEmail(email);
+        if (medico == null) return "redirect:/";
+
+        List<Consulta> consultas = consultaRepository.findByHorarioDisponivel_Medico(medico);
         model.addAttribute("consultas", consultas);
         return "medico/todas-consultas-medico";
     }
+
 
     @PostMapping("/consultas/{id}/estado")
     public String alterarEstado(@PathVariable Long id, @RequestParam("estado") EnumStatusConsulta estado) {
@@ -40,6 +47,27 @@ public class MedicoController {
         consulta.setStatus(estado);
         consultaRepository.save(consulta);
         return "redirect:/medico/consultas";
+    }
+
+    @GetMapping("/admin/consultas")
+    public String verConsultasAdmin(Model model, Authentication auth) {
+        if (!isAdmin(auth))
+            return "redirect:/";
+
+        List<Consulta> consultas = consultaRepository.findAll();
+        model.addAttribute("consultas", consultas);
+        return "admin/todas-consultas-admin";
+    }
+
+    @PostMapping("/admin/consultas/{id}/estado")
+    public String alterarEstadoAdmin(@PathVariable Long id, @RequestParam("estado") EnumStatusConsulta estado) {
+        if(isAdmin(null)) {
+            return "redirect:/";
+        }
+        Consulta consulta = consultaRepository.findById(id).orElseThrow();
+        consulta.setStatus(estado);
+        consultaRepository.save(consulta);
+        return "redirect:/medico/admin/consultas";
     }
 
     @GetMapping("/admin/adicionar")

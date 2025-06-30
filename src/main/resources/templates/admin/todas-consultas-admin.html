@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="container">
-      <h2>Minhas Consultas</h2>
+      <h2>Todas as Consultas</h2>
 
       <table
         class="consulta-table"
@@ -34,7 +34,7 @@
             <td th:text="${consulta.descricao}"></td>
             <td th:class="'status ' + ${consulta.status.name()}">
               <form
-                th:action="@{'/medico/consultas/' + ${consulta.id} + '/estado'}"
+                th:action="@{'/medico/admin/consultas/' + ${consulta.id} + '/estado'}"
                 method="post"
               >
                 <select name="estado" onchange="this.form.submit()">

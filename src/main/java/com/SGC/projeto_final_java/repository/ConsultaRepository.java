@@ -16,4 +16,6 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     List<HorarioDisponivel> findByHorarioDisponivel(HorarioDisponivel horarioDisponivel);
 
     List<Consulta> findByStatus(String status);
+
+    List<Consulta> findByHorarioDisponivel_Medico(Medico medico);
 }
