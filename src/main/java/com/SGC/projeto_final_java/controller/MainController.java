@@ -20,21 +20,30 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model, Authentication auth) {
+        if (auth == null || !auth.isAuthenticated()) {
+            return "redirect:/login";
+        }
+        
         if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_PACIENTE"))) {
             Paciente paciente = pacienteRepository.findByEmail(auth.getName());
             model.addAttribute("paciente", paciente);
-        }
-        else if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MEDICO"))) {
+        } else if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_MEDICO"))) {
             Medico medico = medicoRepository.findByEmail(auth.getName());
             model.addAttribute("medico", medico);
-        }
-        else if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+        } else if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             Medico admin = medicoRepository.findByEmail(auth.getName());
             model.addAttribute("admin", admin);
         }
-        else return "redirect:/login";
+
+        // Verificar se o usuário tem **apenas** a role MEDICO
+        boolean apenasMedico = auth.getAuthorities().size() == 1 &&
+            auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_MEDICO"));
+
+        model.addAttribute("apenasMedico", apenasMedico);
         return "home";
     }
+
 
     @GetMapping("/login")
     public String login() {

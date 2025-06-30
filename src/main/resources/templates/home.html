@@ -77,9 +77,13 @@
       >
         Criar Consulta
       </a>
-      <a sec:authorize="hasRole('MEDICO')" th:href="@{/medico/admin/consultas}">
+      <a sec:authorize="hasRole('ADMIN')" th:href="@{/medico/admin/consultas}">
         Todas as Consultas
       </a>
+      <a th:if="${apenasMedico}" th:href="@{/medico/consultas}">
+          Minhas Consultas
+      </a>
+
       <a
         sec:authorize="isAuthenticated() and principal.username == 'admin@admin.com'"
         th:href="@{/medico/admin/adicionar}"
