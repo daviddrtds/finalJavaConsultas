@@ -21,7 +21,6 @@
             <th>Paciente</th>
             <th>Descrição</th>
             <th>Status</th>
-            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -49,21 +48,7 @@
               </form>
             </td>
 
-            <td>
-              <form
-                th:action="@{'/paciente/consultas/' + ${consulta.id} + '/cancelar'}"
-                method="post"
-                th:if="${consulta.status.name() != 'CANCELADA'}"
-              >
-                <button
-                  type="submit"
-                  class="danger"
-                  onclick="return confirm('Tem certeza que deseja cancelar esta consulta?')"
-                >
-                  Apagar
-                </button>
-              </form>
-            </td>
+           
           </tr>
         </tbody>
       </table>

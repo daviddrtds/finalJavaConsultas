@@ -23,7 +23,7 @@ public class Consulta {
     @Size(max = 255, message = "A descrição deve ter no máximo 255 caracteres")
     private String descricao;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "horarioDisponivel_id", nullable = false)
     @NotNull(message = "O horário é obrigatório")
     private HorarioDisponivel horarioDisponivel;
