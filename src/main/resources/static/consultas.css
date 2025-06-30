@@ -98,3 +98,60 @@ td.status select {
   background-color: transparent;
   font-weight: 500;
 }
+
+  th.sortable:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .dashboard {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .dashboard .card {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 1rem;
+      text-align: center;
+      flex: 1;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    }
+
+    .dashboard .card h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .dashboard .card p {
+      font-size: 1.5rem;
+      margin: 0.5rem 0 0 0;
+      font-weight: bold;
+    }
+    
+    .filtros {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .filtros label {
+      font-weight: bold;
+    }
+
+    select, input[type="text"] {
+      padding: 4px 8px;
+    }
+
+    th.sortable {
+      cursor: pointer;
+    }
+
+    th.sortable:hover {
+      text-decoration: underline;
+    }

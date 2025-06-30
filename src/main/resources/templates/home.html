@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <p sec:authorize="isAuthenticated() and hasRole('MEDICO')">
+      <p sec:authorize="isAuthenticated() and hasRole('MEDICO')" th:if="${apenasMedico}">
         Médico autenticado!
       </p>
 
@@ -48,21 +48,24 @@
         sec:authorize="isAuthenticated() and hasRole('MEDICO')"
         class="infos"
       >
-        <h3 th:text="'Olá ' + ${medico.nome}"></h3>
-        <div class="linhasInfo">
+        <h3 th:if="${apenasMedico}" th:text="'Olá ' + ${medico.nome}"></h3>
+
+       <h3 sec:authorize="isAuthenticated() and hasRole('ADMIN')" th:text="'Informações do Administrador'"></h3>
+
+ <div th:if="${apenasMedico}" class="linhasInfo">
           <strong>Nome:</strong> <span th:text="${medico.nome}"></span>
         </div>
         <div class="linhasInfo">
           <strong>Email:</strong> <span th:text="${medico.email}"></span>
         </div>
-        <div class="linhasInfo">
+        <div th:if="${apenasMedico}" class="linhasInfo">
           <strong>Idade:</strong> <span th:text="${medico.idade}"></span>
         </div>
-        <div class="linhasInfo">
+        <div th:if="${apenasMedico}" class="linhasInfo">
           <strong>Nº Carteira Médica:</strong>
           <span th:text="${medico.numeroCarteiraMedica}"></span>
         </div>
-        <div class="linhasInfo">
+        <div th:if="${apenasMedico}" class="linhasInfo">
           <strong>Especialidade:</strong>
           <span th:text="${medico.especialidade}"></span>
         </div>

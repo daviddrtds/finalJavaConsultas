@@ -1,86 +1,163 @@
 <!DOCTYPE html>
 <html lang="pt-PT" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>As minhas Consultas</title>
-    <link rel="stylesheet" th:href="@{/styles.css}" />
-    <link rel="stylesheet" th:href="@{/consultas.css}" />
-  </head>
-  <body>
-    <div class="container">
-      <h2>Minhas Consultas</h2>
+<head>
+  <meta charset="UTF-8" />
+  <title>As minhas Consultas</title>
+  <link rel="stylesheet" th:href="@{/styles.css}" />
+  <link rel="stylesheet" th:href="@{/consultas.css}" />
+</head>
+<body>
+  <div class="container">
+    <h2>Minhas Consultas</h2>
 
-      <table
-        class="consulta-table"
-        th:if="${consultas != null and !consultas.isEmpty()}"
-      >
-        <thead>
-          <tr>
-            <th>Data e Hora</th>
-            <th>Médico</th>
-            <th>Paciente</th>
-            <th>Descrição</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="consulta : ${consultas}">
-            <td
-              class="data-hora"
-              th:text="${consulta.horarioDisponivel.dataHoraInicio}"
-            ></td>
-            <td th:text="${consulta.horarioDisponivel?.medico?.nome}"></td>
-            <td th:text="${consulta.paciente.nome}"></td>
-            <td th:text="${consulta.descricao}"></td>
-            <td th:class="'status ' + ${consulta.status.name()}">
-              <form
-                th:action="@{'/medico/consultas/' + ${consulta.id} + '/estado'}"
-                method="post"
-              >
-                <select name="estado" onchange="this.form.submit()">
-                  <option
-                    th:each="s : ${T(com.SGC.projeto_final_java.model.EnumStatusConsulta).values()}"
-                    th:value="${s.name()}"
-                    th:text="${s.name()}"
-                    th:selected="${s.name() == consulta.status.name()}"
-                  ></option>
-                </select>
-              </form>
-            </td>
+<div class="dashboard" th:if="${contagemPorStatus != null}">
+  <div class="card">
+    <h3>Pendentes</h3>
+    <p th:text="${contagemPorStatus['PENDENTE'] ?: 0}">0</p>
+  </div>
+  <div class="card">
+    <h3>Concluídas</h3>
+    <p th:text="${contagemPorStatus['CONCLUIDA'] ?: 0}">0</p>
+  </div>
+  <div class="card">
+    <h3>Canceladas</h3>
+    <p th:text="${contagemPorStatus['CANCELADA'] ?: 0}">0</p>
+  </div>
+</div>
 
-           
-          </tr>
-        </tbody>
-      </table>
 
-      <p th:if="${consultas == null or consultas.isEmpty()}" class="info-msg">
-        Não existem consultas agendadas.
-      </p>
+    <!-- Filtros -->
+    <div class="filtros">
+      <div>
+        <label for="filtro-status">Filtrar por status:</label>
+        <select id="filtro-status">
+          <option value="">Todos</option>
+          <option value="PENDENTE">Pendente</option>
+          <option value="CONCLUIDA">Concluída</option>
+          <option value="CANCELADA">Cancelada</option>
+        </select>
+      </div>
 
-      <a th:href="@{/}" class="link">← Voltar</a>
+      <div>
+        <label for="filtro-paciente">Filtrar por paciente:</label>
+        <input type="text" id="filtro-paciente" placeholder="Nome do paciente..." />
+      </div>
     </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const formatarDataHora = (isoString) => {
-          const data = new Date(isoString);
-          if (isNaN(data.getTime())) return isoString;
+    <table class="consulta-table" id="tabela-consultas" th:if="${consultas != null and !consultas.isEmpty()}">
+      <thead>
+        <tr>
+          <th class="sortable" data-col="0">Data e Hora ⬍</th>
+          <th>Médico</th>
+          <th>Paciente</th>
+          <th>Descrição</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="consulta : ${consultas}">
+          <td class="data-hora" th:text="${consulta.horarioDisponivel.dataHoraInicio}"></td>
+          <td th:text="${consulta.horarioDisponivel?.medico?.nome}" class="nome-medico"></td>
+          <td th:text="${consulta.paciente.nome}" class="nome-paciente"></td>
+          <td th:text="${consulta.descricao}"></td>
+          <td th:class="'status ' + ${consulta.status.name()}">
+            <form th:action="@{'/medico/consultas/' + ${consulta.id} + '/estado'}" method="post">
+              <select name="estado" onchange="this.form.submit()">
+                <option th:each="s : ${T(com.SGC.projeto_final_java.model.EnumStatusConsulta).values()}"
+                        th:value="${s.name()}"
+                        th:text="${s.name()}"
+                        th:selected="${s.name() == consulta.status.name()}">
+                </option>
+              </select>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-          const dia = String(data.getDate()).padStart(2, "0");
-          const mes = String(data.getMonth() + 1).padStart(2, "0");
-          const ano = data.getFullYear();
-          const horas = String(data.getHours()).padStart(2, "0");
-          const minutos = String(data.getMinutes()).padStart(2, "0");
+    <p th:if="${consultas == null or consultas.isEmpty()}" class="info-msg">
+      Não existem consultas agendadas.
+    </p>
 
-          return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
-        };
+    <a th:href="@{/}" class="link">← Voltar</a>
+  </div>
 
-        const elementos = document.querySelectorAll(".data-hora");
-        elementos.forEach((el) => {
-          const original = el.textContent.trim();
-          el.textContent = formatarDataHora(original);
-        });
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Formatador de datas
+      const formatarDataHora = (isoString) => {
+        const data = new Date(isoString);
+        if (isNaN(data.getTime())) return isoString;
+
+        const dia = String(data.getDate()).padStart(2, "0");
+        const mes = String(data.getMonth() + 1).padStart(2, "0");
+        const ano = data.getFullYear();
+        const horas = String(data.getHours()).padStart(2, "0");
+        const minutos = String(data.getMinutes()).padStart(2, "0");
+
+        return `${dia}/${mes}/${ano} ${horas}:${minutos}`;
+      };
+
+      // Formatar todas as datas
+      const dataHoraElements = document.querySelectorAll(".data-hora");
+      dataHoraElements.forEach((el) => {
+        const original = el.textContent.trim();
+        el.textContent = formatarDataHora(original);
       });
-    </script>
-  </body>
+
+      const tabela = document.getElementById("tabela-consultas");
+      const linhas = tabela.querySelectorAll("tbody tr");
+
+      // Filtro por status
+      document.getElementById("filtro-status").addEventListener("change", aplicarFiltros);
+
+      // Filtro por paciente
+      document.getElementById("filtro-paciente").addEventListener("input", aplicarFiltros);
+
+      function aplicarFiltros() {
+        const filtroStatus = document.getElementById("filtro-status").value.toUpperCase();
+        const filtroPaciente = document.getElementById("filtro-paciente").value.toLowerCase();
+
+        linhas.forEach((linha) => {
+          const status = linha.querySelector(".status").textContent.toUpperCase();
+          const paciente = linha.querySelector(".nome-paciente").textContent.toLowerCase();
+
+          const statusOk = !filtroStatus || status === filtroStatus;
+          const pacienteOk = !filtroPaciente || paciente.includes(filtroPaciente);
+
+          linha.style.display = statusOk && pacienteOk ? "" : "none";
+        });
+      }
+
+      // Ordenar por data
+      let ordemAsc = true;
+      document.querySelector("th.sortable").addEventListener("click", function () {
+        const tbody = tabela.querySelector("tbody");
+        const linhasArray = Array.from(tbody.querySelectorAll("tr"));
+
+        linhasArray.sort((a, b) => {
+          // Converter texto formatado para Date, ou usar atributo data-iso se quiser melhorar
+          // Como as datas estão no formato "dd/mm/yyyy hh:mm", vamos usar o texto original do atributo th:text
+          const parseDate = (str) => {
+            // Pega o texto original do atributo th:text no tr? Não temos, então vamos converter a partir do texto formatado
+            // Formato esperado: "dd/mm/yyyy hh:mm"
+            const [datePart, timePart] = str.split(' ');
+            if (!datePart || !timePart) return new Date(0);
+            const [dd, mm, yyyy] = datePart.split('/');
+            const [hh, min] = timePart.split(':');
+            return new Date(yyyy, mm - 1, dd, hh, min);
+          };
+
+          const dataA = parseDate(a.cells[0].textContent.trim());
+          const dataB = parseDate(b.cells[0].textContent.trim());
+
+          return ordemAsc ? dataA - dataB : dataB - dataA;
+        });
+
+        ordemAsc = !ordemAsc;
+        linhasArray.forEach((linha) => tbody.appendChild(linha));
+      });
+    });
+  </script>
+</body>
 </html>

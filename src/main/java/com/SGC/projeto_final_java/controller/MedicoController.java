@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/medico")
@@ -36,6 +38,10 @@ public class MedicoController {
         if (medico == null) return "redirect:/";
 
         List<Consulta> consultas = consultaRepository.findByHorarioDisponivel_Medico(medico);
+        Map<String, Long> contagemPorStatus = consultas.stream()
+        .collect(Collectors.groupingBy(c -> c.getStatus().name(), Collectors.counting()));
+
+        model.addAttribute("contagemPorStatus", contagemPorStatus);
         model.addAttribute("consultas", consultas);
         return "medico/todas-consultas-medico";
     }
@@ -55,6 +61,11 @@ public class MedicoController {
             return "redirect:/";
 
         List<Consulta> consultas = consultaRepository.findAll();
+        Map<String, Long> contagemPorStatus = consultas.stream()
+        .collect(Collectors.groupingBy(c -> c.getStatus().name(), Collectors.counting()));
+
+        model.addAttribute("contagemPorStatus", contagemPorStatus);
+
         model.addAttribute("consultas", consultas);
         return "admin/todas-consultas-admin";
     }
