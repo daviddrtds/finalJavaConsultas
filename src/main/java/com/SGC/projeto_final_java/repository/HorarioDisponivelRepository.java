@@ -28,5 +28,8 @@ public interface HorarioDisponivelRepository extends JpaRepository<HorarioDispon
         ORDER BY h.dataHoraInicio
     """)
     List<HorarioDisponivel> findHorariosDisponiveisPorMedico(Long medicoId);
+
+    boolean existsByMedicoAndDataHoraInicioLessThanAndDataHoraFimGreaterThan(Medico medico, LocalDateTime fimNovo,
+            LocalDateTime inicioNovo);
     
 }

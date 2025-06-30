@@ -50,6 +50,13 @@ input {
   text-align: center;
 }
 
+.custom-success {
+  margin-top: 20px;
+  color: #388e3c;
+  font-weight: bold;
+  text-align: center;
+}
+
 button {
   background-color: #00796b;
   color: white;
@@ -77,3 +84,12 @@ a.link {
 a.link:hover {
   text-decoration: underline;
 }
+
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+}
+

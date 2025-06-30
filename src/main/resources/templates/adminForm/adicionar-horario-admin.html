@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin - Adicionar Horário</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <link rel="stylesheet" th:href="@{/admin.css}" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Adicionar Horário Disponível</h2>
+
+      <form
+        th:action="@{/medico/admin/adicionarHorario}"
+        method="post"
+        th:object="${horario}"
+      >
+        <div class="form-group">
+          <label for="medico">Selecionar Médico:</label>
+          <select id="medico" name="medicoId" required>
+            <option value="" disabled selected>-- Selecione um médico --</option>
+            <option
+              th:each="medico : ${medicos}"
+              th:if="${medico.nome != 'Administrador do Sistema'}"
+              th:value="${medico.id}"
+              th:text="${medico.nome}"
+            >
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="dataHoraInicio">Data e Hora de Início:</label>
+          <input
+            type="datetime-local"
+            id="dataHoraInicio"
+            th:field="*{dataHoraInicio}"
+            required
+            onchange="atualizarHoraFim()"
+          />
+        </div>
+
+<div class="form-group">
+  <label>Data e Hora de Fim:</label>
+  <p id="dataHoraFim-texto" style="font-weight: bold; color: #8d8d8d;"></p>
+</div>
+
+<input type="hidden" id="dataHoraFim" th:field="*{dataHoraFim}" />
+
+
+        <button type="submit">Guardar Horário</button>
+      </form>
+
+      <a th:href="@{/}" class="link">← Voltar ao Início</a>
+
+      <div th:if="${param.sucesso}">
+        <p class="custom-success">
+          Horário adicionado com sucesso!
+        </p>
+      </div>
+
+      <div th:if="${param.erro}">
+        <p class="custom-error">
+          Não é possível adicionar um horário sobreposto.
+        </p>
+      </div>
+    </div>
+   </body>
+</html>
+<script>
+  function atualizarHoraFim() {
+    const inicioInput = document.getElementById('dataHoraInicio');
+    const fimText = document.getElementById('dataHoraFim-texto');
+    const fimInput = document.getElementById('dataHoraFim');
+
+    const inicioStr = inicioInput.value;
+    if (!inicioStr) {
+      fimText.textContent = '';
+      fimInput.value = '';
+      return;
+    }
+
+    const inicio = new Date(inicioStr);
+    if (isNaN(inicio.getTime())) {
+      fimText.textContent = '';
+      fimInput.value = '';
+      return;
+    }
+
+    // Adiciona 1 hora
+    inicio.setHours(inicio.getHours() + 1);
+
+    // Formata para exibir (dd/MM/yyyy HH:mm)
+    const dia = String(inicio.getDate()).padStart(2, '0');
+    const mes = String(inicio.getMonth() + 1).padStart(2, '0');
+    const ano = inicio.getFullYear();
+    const hora = String(inicio.getHours()).padStart(2, '0');
+    const minuto = String(inicio.getMinutes()).padStart(2, '0');
+
+    fimText.textContent = `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+
+    // Formata para o formato que o input datetime-local espera (yyyy-MM-ddTHH:mm)
+    const anoISO = inicio.getFullYear();
+    const mesISO = String(inicio.getMonth() + 1).padStart(2, '0');
+    const diaISO = String(inicio.getDate()).padStart(2, '0');
+    const horaISO = String(inicio.getHours()).padStart(2, '0');
+    const minutoISO = String(inicio.getMinutes()).padStart(2, '0');
+
+    fimInput.value = `${anoISO}-${mesISO}-${diaISO}T${horaISO}:${minutoISO}`;
+  }
+
+  window.onload = atualizarHoraFim;
+</script>
+

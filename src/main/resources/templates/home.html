@@ -94,6 +94,14 @@
       >
         + Adicionar Médico
       </a>
+
+            <a
+        sec:authorize="isAuthenticated() and principal.username == 'admin@admin.com'"
+        th:href="@{/medico/admin/adicionarHorario}"
+        class="link"
+      >
+        + Adicionar Horário
+      </a>
       <a class="logout" th:href="@{/logout}">Logout</a>
     </div>
   </body>

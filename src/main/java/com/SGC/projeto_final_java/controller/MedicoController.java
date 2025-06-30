@@ -3,7 +3,9 @@ package com.SGC.projeto_final_java.controller;
 import com.SGC.projeto_final_java.model.Consulta;
 import com.SGC.projeto_final_java.model.Medico;
 import com.SGC.projeto_final_java.model.EnumStatusConsulta;
+import com.SGC.projeto_final_java.model.HorarioDisponivel;
 import com.SGC.projeto_final_java.repository.ConsultaRepository;
+import com.SGC.projeto_final_java.repository.HorarioDisponivelRepository;
 import com.SGC.projeto_final_java.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,6 +31,9 @@ public class MedicoController {
 
     @Autowired
     private MedicoRepository medicoRepository;
+
+    @Autowired
+    private HorarioDisponivelRepository horarioDisponivelRepository;
 
     @GetMapping("/consultas")
         public String verConsultas(Model model, Authentication auth) {
@@ -105,5 +111,41 @@ public class MedicoController {
     private boolean isAdmin(Authentication auth) {
         return auth != null && auth.getName().equals("admin@admin.com");
     }
+
+    @GetMapping("/admin/adicionarHorario")
+    public String mostrarFormularioHorario(Model model, Authentication auth) {
+        if (!isAdmin(auth)) return "redirect:/";
+
+        model.addAttribute("horario", new HorarioDisponivel());
+        model.addAttribute("medicos", medicoRepository.findAll());
+        return "adminForm/adicionar-horario-admin";
+    }
+
+    @PostMapping("/admin/adicionarHorario")
+    public String adicionarHorario(@RequestParam Long medicoId, @ModelAttribute HorarioDisponivel horario, Authentication auth) {
+        if (!isAdmin(auth)) return "redirect:/";
+
+        Medico medico = medicoRepository.findById(medicoId)
+                .orElseThrow(() -> new IllegalArgumentException("Médico não encontrado"));
+
+        LocalDateTime inicioNovo = horario.getDataHoraInicio();
+        LocalDateTime fimNovo = horario.getDataHoraFim();
+
+        boolean sobrepoe = horarioDisponivelRepository.existsByMedicoAndDataHoraInicioLessThanAndDataHoraFimGreaterThan(
+                medico, fimNovo, inicioNovo
+        );
+
+        if (sobrepoe) {
+            return "redirect:/medico/admin/adicionarHorario?erro";
+        }
+
+        horario.setMedico(medico);
+        horarioDisponivelRepository.save(horario);
+
+        return "redirect:/medico/admin/adicionarHorario?sucesso";
+    }
+
+
+
 
 }

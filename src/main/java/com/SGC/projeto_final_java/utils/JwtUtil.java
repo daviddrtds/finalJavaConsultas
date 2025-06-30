@@ -18,7 +18,8 @@ public class JwtUtil {
     private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     // Configurable token expiration time (in milliseconds)
-    private static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 60; // 1 hour
+    private static final long JWT_TOKEN_VALIDITY = // 10 seconds
+            10 * 1000L; // Adjust this value as needed, e.g., 10 minutes = 10 * 60 * 1000L
 
     // Generate a JWT token
     public String generateToken(String username, Map<String, Object> extraClaims) {
