@@ -62,6 +62,11 @@ public class AuthController {
             return "registo";
         }
 
+        if (pacienteRepository.findByNumeroUtente(paciente.getNumeroUtente()) != null) {
+            model.addAttribute("erroNumeroUtente", "Já existe um utilizador com esse número de utente.");
+            return "registo";
+        }
+
         paciente.setPassword(passwordEncoder.encode(paciente.getPassword()));
         pacienteRepository.save(paciente);
         return "redirect:/login";
