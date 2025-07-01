@@ -49,6 +49,24 @@ public class AuthController {
         return "registo";
     }
 
+     @PostMapping("/registo")
+    public String registarPaciente(@Valid @ModelAttribute("paciente") Paciente paciente,
+            BindingResult result,
+            Model model) {
+        if (result.hasErrors()) {
+            return "registo";
+        }
+
+        if (pacienteRepository.findByEmail(paciente.getEmail()) != null) {
+            model.addAttribute("erroEmail", "Já existe um utilizador com esse email.");
+            return "registo";
+        }
+
+        paciente.setPassword(passwordEncoder.encode(paciente.getPassword()));
+        pacienteRepository.save(paciente);
+        return "redirect:/login";
+    }
+
         @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {
