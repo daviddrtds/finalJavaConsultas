@@ -55,7 +55,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr th:each="consulta : ${consultas}">
+        <tr th:each="consulta : ${consultas}"
+          th:attr="data-status=${consulta.status.name()},
+                   data-paciente=${consulta.paciente.nome},
+                   data-medico=${consulta.horarioDisponivel.medico.nome}">
           <td class="data-hora" th:text="${consulta.horarioDisponivel.dataHoraInicio}"></td>
           <td th:text="${consulta.horarioDisponivel?.medico?.nome}" class="nome-medico"></td>
           <td th:text="${consulta.paciente.nome}" class="nome-paciente"></td>
@@ -119,7 +122,7 @@
         const filtroPaciente = document.getElementById("filtro-paciente").value.toLowerCase();
 
         linhas.forEach((linha) => {
-          const status = linha.querySelector(".status").textContent.toUpperCase();
+          const status = linha.getAttribute("data-status")?.toUpperCase() || "";
           const paciente = linha.querySelector(".nome-paciente").textContent.toLowerCase();
 
           const statusOk = !filtroStatus || status === filtroStatus;
